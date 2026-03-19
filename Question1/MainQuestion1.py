@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from Data.DataGeneration import DataGeneration
-from Synopses.CMTopK import CMTopK
-from Synopses.MusicLabelHashMap import MusicLabelHashMap
+from Question1.CMTopK import CMTopK
+from Question2.MusicLabelHashMap import MusicLabelHashMap
 
 
 def compare_exact_approx(topk_exact, topk_appr):
@@ -44,30 +44,6 @@ def question1(data):
     compare_exact_approx(topk_exact, topk_appr)
 
 
-def question2(data):
-    print("User engagement per label:")
-    time = datetime.now()
-    exact = data.get_user_engagement_per_label_exact()
-    for label in data.labels:
-        print(f"Label: {label} has {exact[label]} unique user-song pairs.")
-    print("Exact Query time: ", datetime.now() - time)
-    print("\n")
-
-    epsilon = 0.1
-    delta = 0.1
-    sketch = MusicLabelHashMap(epsilon, delta)
-    print("Approximate data insertion")
-    time = datetime.now()
-    data.ingest_data_into_sketch(sketch)
-    print("Ingestion time taken: ", datetime.now() - time)
-    print("User engagement per label (approximate):")
-    time = datetime.now()
-    for label in data.labels:
-        estimate = sketch.query(label)
-        print(f"Label: {label} is estimated to have {estimate} unique user-song pairs. Exact: {exact[label]}, error: {round(abs(exact[label] - estimate) / exact[label], 3)}")
-    print("Appr. Query time: ", datetime.now() - time)
-
-
 def run():
     size = int(100000)
     numUsers = int(18e6)
@@ -81,9 +57,5 @@ def run():
     print("---- Question 1 --------")
     # question 1
     question1(data)
-
-    print("---- Question 2 --------")
-    # question 2
-    question2(data)
 
 run()

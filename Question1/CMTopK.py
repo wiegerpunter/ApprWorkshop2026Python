@@ -1,8 +1,6 @@
-import heapq
-import math
 import sys
 
-from Synopses.CM import CountMin
+from Question1.CM import CountMin
 
 
 class CMTopK:
